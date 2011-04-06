@@ -1,0 +1,109 @@
+<html>
+<embed type="application/x-youmute" id="youmute-api" width="0" height="0" hidden="true">
+<script src="mootools-1.2.4-core-nc.js"></script>
+<script>
+var YoumuteApi = new Class({
+	initialize: function(){
+		this.api = document.getElementById('youmute-api');
+		this.disabled = localStorage.getItem("api-disabled") === "yes";
+	},
+	
+	setDisabled: function(d){
+		var disabled = d ? "yes": "no"
+		localStorage.setItem("api-disabled", disabled);
+		this.disabled = d;
+	},
+	
+	resume: function(){
+		this.api.resume();
+	},
+	
+	pause: function(){
+		if(!this.disabled){
+			this.api.pause();
+		}
+	}
+})
+
+
+var Controller = new Class({
+	
+	initialize: function(api){
+		this.api = api;
+		this.playingTabs = new Array();
+		safari.application.addEventListener("message", function(event){
+		    if(event.name === "pause")
+		    {
+		        this.api.pause();
+				this.playingTabs.combine([event.target]);
+		    }
+
+		    if(event.name === "resume")
+		    {
+				this.playingTabs.erase(event.target);
+				this.checkPlaying();
+		    }
+
+
+		}.bind(this), false);
+		
+		safari.application.addEventListener("command", function(event){
+			if(event.command === "toggleYoumute"){
+				this.onoff();
+			}
+		}.bind(this));
+		
+		safari.application.addEventListener("validate", function(event){
+			if (event.command === "toggleYoumute") {
+		        event.target.image = safari.extension.baseURI + (this.api.disabled?'note-off.png':'note.png');
+				return true;
+		    }
+		}.bind(this));
+		
+		this.cleanupTabs.periodical(2000, this);
+		this.updateUI();
+	},
+	
+	checkPlaying: function(){
+		if(this.playingTabs.length < 1){
+			this.api.resume();
+		}
+	},
+	
+	cleanupTabs: function(){
+		if(this.playingTabs.length >= 1)
+		{
+			this.playingTabs = this.playingTabs.filter(function(t){
+				return t['page'] !== undefined;
+			});
+			this.checkPlaying();
+		}
+	},
+	
+	onoff: function(){
+		
+		this.api.setDisabled(!this.api.disabled);
+			
+		this.updateUI();
+	},
+	
+	updateUI: function(){
+		var off = this.api.disabled;
+		safari.extension.toolbarItems.each(function(item){
+			if(off){
+				item.image = safari.extension.baseURI + 'note-off.png';
+			}else{
+				item.image =  safari.extension.baseURI + 'note.png';
+			}
+		});
+	}
+	
+}); 
+
+
+var api = new YoumuteApi();
+new Controller(api);
+
+
+</script>
+</html>

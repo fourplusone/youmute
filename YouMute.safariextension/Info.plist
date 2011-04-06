@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Matthias</string>
+	<key>CFBundleDisplayName</key>
+	<string>YouMute</string>
+	<key>CFBundleIdentifier</key>
+	<string>im.matthias.youmute</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1a4</string>
+	<key>CFBundleVersion</key>
+	<string>4</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Database Quota</key>
+		<real>1048576</real>
+		<key>Global Page</key>
+		<string>global.html</string>
+		<key>Toolbar Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>toggleYoumute</string>
+				<key>Identifier</key>
+				<string>toggleYoumute</string>
+				<key>Image</key>
+				<string>note.png</string>
+				<key>Label</key>
+				<string>YouMute</string>
+				<key>Tool Tip</key>
+				<string>(De)activates YouMute</string>
+			</dict>
+		</array>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict>
+			<key>End</key>
+			<array>
+				<string>inject.js</string>
+			</array>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>Mutes iTunes if videos are played within the browser</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://matthias.im/youmute/update.plist</string>
+	<key>Website</key>
+	<string>http://matthias.im/youmute</string>
+</dict>
+</plist>
