@@ -111,6 +111,13 @@ THE SOFTWARE.
     return YES;
 }
 
+- (void) dealloc
+{
+    [itns release];
+    [super dealloc];
+}
+
+
 @end
 
 @implementation YouMuteView (Internal)
